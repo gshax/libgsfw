@@ -1,0 +1,50 @@
+#!/bin/sh
+
+check_image() {
+    IMAGE="ht818$1.bin"
+    if [ ! -e "$IMAGE" ]; then
+        echo "$IMAGE: file not found!"
+        exit 1
+    fi
+}
+
+encrypt() {
+    echo "encrypting $1..." >&2
+    gs_imgcrypt -eo "ht818$1.enc" "ht818$1.bin" || return 1
+}
+
+if [ -z "$1" ]; then
+    echo "Usage: `basename "$0"` <dest>" >&2
+    echo >&2
+    echo "Build an HT818 firmware update" >&2
+    echo >&2
+    echo "Expects the following (decrypted) files in the current directory:" >&2
+    echo "  ht818boot.bin" >&2
+    echo "  ht818core.bin" >&2
+    echo "  ht818base.bin" >&2
+    echo "  ht818prog.bin" >&2
+    exit 1
+fi
+
+# make sure the files are there
+check_image "boot"
+check_image "core"
+check_image "base"
+check_image "prog"
+
+# generate header from the headers of the images
+echo "generating header..." >&2
+FW_HEADER=`gs_fwmkhdr -qHn` || exit 1
+
+# encrypt all the images
+encrypt "boot" || exit 1
+encrypt "core" || exit 1
+encrypt "base" || exit 1
+encrypt "prog" || exit 1
+
+# concatenate everything together
+echo "packing..." >&2
+cat "$FW_HEADER" ht818boot.enc ht818core.enc ht818base.enc ht818prog.enc > $1
+
+# clean up
+rm "$FW_HEADER" ht818boot.enc ht818core.enc ht818base.enc ht818prog.enc

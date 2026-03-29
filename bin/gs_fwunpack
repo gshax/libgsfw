@@ -1,0 +1,35 @@
+#!/bin/sh
+
+decrypt() {
+    echo "decrypting $1..." >&2
+    gs_imgcrypt "ht818$1.bin" || return 1
+}
+
+if [ -z "$1" ]; then
+    echo "Usage: `basename "$0"` <src>" >&2
+    echo >&2
+    echo "Unpack an HT818 firmware update" >&2
+    echo >&2
+    echo "Produces the following (decrypted) files in the current directory:" >&2
+    echo "  ht818boot.bin" >&2
+    echo "  ht818core.bin" >&2
+    echo "  ht818base.bin" >&2
+    echo "  ht818prog.bin" >&2
+    exit 1
+fi
+
+# make sure the files are there
+if [ ! -e "$1" ]; then
+    echo "$1: file not found!"
+    exit 1
+fi
+
+# unpack the individual images from the update
+echo "unpacking..." >&2
+gs_fwtool -qu $1 || exit 1
+
+# decrypt resulting images
+decrypt "boot" || exit 1
+decrypt "core" || exit 1
+decrypt "base" || exit 1
+decrypt "prog" || exit 1
