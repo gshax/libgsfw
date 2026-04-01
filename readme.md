@@ -1,47 +1,47 @@
-# fwtool
+# libgsfw
 
-Utilities for working with Grandstream device firmware. Currently only supports HT818v1.
+library and utilities for reverse engineering and modifying Grandstream firmware. supports multiple device families (emphasizing the HT8xxv1 ones), with varying levels of support for other families.
 
-### High-level commands
+## tools
 
-- `gs_fwunpack` - unpack `ht818fw.bin` to decrypted images
-- `gs_fwpack` - pack `ht818fw.bin` from decrypted images
-- `gs_imgpatch` - replace the body of a decrypted image
+- **fwtool** - firmware update swiss army knife: inspect, unpack, decrypt, pack+encrypt, fix checksums, reset rollback bits
+- **imgtool** - partition image tool: inspect, extract header/body, fix headers/checksums, patch body
 
-### Low-level commands
-
-- `gs_fwtool` - HT818 firmware update analysis and patching utility
-- `gs_fwmkhdr` - HT818 firmware update header generator
-- `gs_imgcrypt` - decrypt/encrypt HT818 partition images
-- `gs_imgtool` - HT818 partition image analysis and patching utility
-
-## Requirements
-
-- Linux
-- Working toolchain for building C programs
-- Fairly recent NodeJS
-
-Development and testing was done on Gentoo with GCC 14 and Node 23.
-
-## Setup
-
-`./init.sh` should automatically initialize the repo, install the NPM dependencies, and build all the C tools. If you'd rather do that yourself, just read the script.
-
-## Firmware patching workflow
+## building
 
 ```sh
-# get environment ready
-./init.sh
-. env.sh
-
-# unpack the firmware update
-gs_fwunpack ht818fw.bin
-
-# patching an image
-gs_imgtool -u ht818boot.bin
-# ...perform desired modifications to ht818boot.img...
-gs_imgpatch ht818boot.bin ht818boot.img
-
-# rebuild the firmware update
-gs_fwpack ht818fw_modified.bin
+cd src
+make
 ```
+
+binaries are output to `src/native/`.
+
+## firmware patching workflow
+
+```sh
+# unpack and decrypt a firmware update
+fwtool -d ht818fw.bin
+
+# extract body from a partition image
+imgtool -F ht8_dvf101 -u ht818boot.bin
+
+# (...perform desired modifications to ht818boot_body.bin...)
+
+# replace the image body and fix the header
+imgtool -F ht8_dvf101 --patch ht818boot_body.bin ht818boot.bin
+
+# pack and encrypt into a new firmware update
+fwtool -p -F ht8_dvf101 ht818fw_modified.bin ht818boot.bin ht818core.bin ht818base.bin ht818prog.bin
+```
+
+## supported families
+
+| Family | Devices | Capabilities |
+|---|---|---|
+| ht8_dvf101 | HT818 | Full: unpack, decrypt, pack, checksum, rollback bits |
+| ht8_dvf99 | HT801, HT802, HT813 | Unpack, decrypt, pack |
+| ht8_rockchip | HT80xv2, HT81xv2 | Unpack only (encryption unsolved) |
+| ht7 | HT701, HT702, HT704 | Unpack, decrypt (partial?) |
+| ht5 | HT502, HT503 | Unpack, decrypt |
+
+Run `fwtool --families` to see current capabilities.

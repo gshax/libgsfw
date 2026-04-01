@@ -1,5 +1,0 @@
-native/
-arm/
-mtd*
-*_old.c
-*.bin

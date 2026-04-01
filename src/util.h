@@ -18,7 +18,30 @@
  */
 
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
 
-extern void* ezmmap(char* filename, size_t* size);
-extern void ezmunmap();
+#define MSLEEP(n) usleep(n * 1000)
+
+typedef enum ezmmap_mode {
+    ezmmap_ro,
+    ezmmap_rw,
+    ezmmap_create
+} ezmmap_mode_t;
+
+typedef struct ezmmap_ctx {
+    ezmmap_mode_t mode;
+    size_t size;
+    struct stat sb;
+    void* ptr;
+} ezmmap_ctx_t;
+
+typedef struct applet {
+    char name[0x10];
+    int (*main)(int argc, char* argv[]);
+} applet_t;
+
+extern int ezmmap(char* filename, ezmmap_mode_t mode, size_t size, ezmmap_ctx_t* ctx);
+extern int ezmunmap(ezmmap_ctx_t* ctx);
+extern int ezmknod(char* path, char type, int major, int minor);
 extern void sanity(int assertion, char* should);

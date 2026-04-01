@@ -1,0 +1,6 @@
+name,		fw_magic,	img_magic,	fw_start,	fw_check_size,	fw_body_start,	fw_file_slots,	img_crypt_size,	img_key_sample,	img_body_start,	notes
+ht5,		0x00000000,	0x64A95B73,	0,		?,		0x394,		12,		0x20,		0x10,		0x20,		all HT5xx devices
+ht7,		0x43A78F39,	0x43A78F39,	0,		?,		0x1cc,		6,		0x30,		0x10,		0x200,		all HT7xx devices
+ht8_dvf99,	0x23C97AF9,	0x23C97AF9,	0,		0,		0x288,		7,		0x20,		0x10,		0x200,		all HT8xxv1 devices EXCEPT HT818
+ht8_dvf101,	0x23C97AF9,	0x23C97AF9,	0,		0x20a,		0x4000,		7,		0x4000,		0x10,		0x4000,		HT818 only
+ht8_rockchip,	0x23C97AF9,	0x23C97AF9,	0x100,		?,		0x600,		16,		0x100,		?,		0x100,		all HT8xxv2 devices; checksumming presumed but unknown; mysterious encrypted(?) data prepended at 0x0-0x100; image encryption scheme not yet solved

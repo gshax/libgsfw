@@ -1,0 +1,14 @@
+name,		family,		file0,			notes
+ht502,		ht5,		ht502boota.bin
+ht503,		ht5,		ht503boota.bin
+ht701,		ht7,		ht701prog.bin
+ht702,		ht7,		ht702prog.bin
+ht704,		ht7,		ht704prog.bin
+ht801,		ht8_dvf99,	ht801boot.bin
+ht802,		ht8_dvf99,	ht802boot.bin
+ht813,		ht8_dvf99,	ht813boot.bin
+ht8xx,		ht8_dvf99,	ht81xboot.bin,		HT812v1/HT814v1
+ht818,		ht8_dvf101,	ht818boot.bin
+ht80xv2,	ht8_rockchip,	ht80xv2boot.bin,	HT801v2/HT802v2
+ht81xv2,	ht8_rockchip,	ht81xv2boot.bin,	HT812v2/HT814v2/HT818v2
+ht8x1,		ht8_rockchip,	ht8x1boot.bin,		HT841/HT881
