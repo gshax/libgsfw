@@ -1,34 +1,19 @@
-# gstools
+# libgsfw
 
-grandstream firmware reverse engineering and modification toolkit. targets HT-series ATAs (HT5xx, HT7xx, HT8xx) with varying levels of support per device family.
-
-## building
-
-```sh
-cd utils
-make          # builds all targets into native/
-make fwtool   # shorthand for native/fwtool
-make clean
-```
-
-cross-compilation: `make OUTDIR=mips CC=mipsel-linux-musl-gcc` (used for on-device tools like bspinit).
+library and utilities for reverse engineering and modifying Grandstream firmware. supports multiple device families (emphasizing the HT8xxv1 ones), with varying levels of support for other families.
 
 ## repo layout
 
-- `utils/` - C source for all tools
+- `src/` - C source for all tools
   - `firmware/` - firmware format definitions, crypto, per-family implementations
-  - `driver/` - on-device kernel module interfaces (bsp_ht)
-  - `native/` - build output
-- `fw/` - firmware binary repository and extracted images
-- `research/` - reverse engineering notes
+- `build/` - build output
 
 ## tools
 
-### C tools (utils/)
+### C tools (src/)
 
 - **fwtool** - firmware update swiss army knife: inspect, unpack, decrypt, pack+encrypt, fix checksums, reset rollback bits. auto-detects device family for inspection/unpack; requires `--family` for pack.
 - **imgtool** - partition image tool: inspect, extract header/body, fix headers/checksums, patch body. requires `--family` for all operations (image fingerprinting not yet viable).
-- **bspinit** - on-device BSP initialization (SLIC driver setup). runs on the target hardware.
 
 ## firmware patching workflow
 

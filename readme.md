@@ -10,7 +10,6 @@ library and utilities for reverse engineering and modifying Grandstream firmware
 ## building
 
 ```sh
-cd src
 make
 ```
 
