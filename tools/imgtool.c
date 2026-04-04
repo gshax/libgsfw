@@ -10,10 +10,10 @@
 #include <string.h>
 #include <getopt.h>
 
-#include "firmware/family_defs.h"
-#include "firmware/shared.h"
-#include "log.h"
-#include "util.h"
+#include <gsfw/firmware/family_defs.h>
+#include <gsfw/firmware/shared.h>
+#include <gsfw/log.h>
+#include <gsfw/util.h>
 
 void usage(char* prog) {
     fprintf(stderr, "Usage: %s -F <family> [-uHflqn] <file>\n"

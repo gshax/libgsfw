@@ -1,5 +1,4 @@
-#ifndef _AES_H_
-#define _AES_H_
+#pragma once
 
 #include <stdint.h>
 #include <stddef.h>
@@ -76,6 +75,3 @@ void AES_CBC_decrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length);
 void AES_CTR_xcrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length);
 
 #endif // #if defined(CTR) && (CTR == 1)
-
-
-#endif // _AES_H_

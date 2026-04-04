@@ -1,6 +1,6 @@
-#include "firmware/crypto.h"
-#include "firmware/shared.h"
-#include "aes.h"
+#include <gsfw/firmware/crypto.h>
+#include <gsfw/firmware/shared.h>
+#include <gsfw/aes.h>
 
 #include <string.h>
 

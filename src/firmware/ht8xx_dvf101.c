@@ -1,5 +1,5 @@
-#include "firmware/family/ht8xx_dvf101.h"
-#include "firmware/family_defs.h"
+#include <gsfw/firmware/family/ht8xx_dvf101.h>
+#include <gsfw/firmware/family_defs.h>
 
 #include <stdio.h>
 #include <string.h>

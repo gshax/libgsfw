@@ -1,5 +1,5 @@
-#include "firmware/family/ht8xx.h"
-#include "firmware/family_defs.h"
+#include <gsfw/firmware/family/ht8xx.h>
+#include <gsfw/firmware/family_defs.h>
 
 #include <string.h>
 

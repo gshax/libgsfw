@@ -3,7 +3,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "firmware/family_defs.h"
+#include <gsfw/firmware/family_defs.h>
 
 #pragma pack(push, 1)
 

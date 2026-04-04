@@ -1,5 +1,5 @@
-#include "firmware/family/htlegacy.h"
-#include "firmware/family_defs.h"
+#include <gsfw/firmware/family/htlegacy.h>
+#include <gsfw/firmware/family_defs.h>
 
 int ht5_parse_header(ht5_update_hdr_t* header, gs_update_directory_t* directory) {
     //ht5_update_hdr_t* header = (void*)start;

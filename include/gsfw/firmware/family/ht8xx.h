@@ -20,12 +20,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "firmware/family_defs.h"
-
-//#define HT8_UPDATE_FILES 7
-//#define HT8V2_UPDATE_FILES 16
-//#define HT8_UPDATE_CHECKSUM_SIZE 0x20a
-//#define HT8_UPDATE_START 0x4000
+#include <gsfw/firmware/family_defs.h>
 
 // validity check stuff
 #define GS_IMAGE_ID_KNOWN(id) (id >= GS_IMG_BOOT && id <= GS_IMG_PROG)

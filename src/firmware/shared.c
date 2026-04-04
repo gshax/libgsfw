@@ -1,9 +1,7 @@
-#include "log.h"
-#include "firmware/shared.h"
-#include "firmware/crypto.h"
-#include "firmware/family_defs.h"
-//#include "htlegacy.h"
-//#include "ht8xx.h"
+#include <gsfw/log.h>
+#include <gsfw/firmware/shared.h>
+#include <gsfw/firmware/crypto.h>
+#include <gsfw/firmware/family_defs.h>
 
 #include <stdio.h>
 #include <string.h>

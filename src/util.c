@@ -1,4 +1,4 @@
-#include "util.h"
+#include <gsfw/util.h>
 
 #include <errno.h>
 #include <fcntl.h>
@@ -8,7 +8,7 @@
 #include <sys/stat.h>
 #include <sys/sysmacros.h>
 
-#include "log.h"
+#include <gsfw/log.h>
 
 int ezmmap(char* filename, ezmmap_mode_t mode, size_t size, ezmmap_ctx_t* ctx) {
     ctx->mode = mode;
