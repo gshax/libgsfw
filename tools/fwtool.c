@@ -12,8 +12,8 @@
 
 #include <gsfw/firmware/family_defs.h>
 #include <gsfw/firmware/shared.h>
-#include <gsfw/log.h>
-#include <gsfw/util.h>
+#include "log.h"
+#include "util.h"
 
 void usage(char* prog) {
     fprintf(stderr, "Usage: %s [-udflq] <file>\n", prog);
@@ -33,6 +33,7 @@ void usage(char* prog) {
 }
 
 void list_families() {
+#ifndef LIBGSFW_EMBEDDED
     char capstr[32];
     fprintf(stderr, "Capabilities:\n"
         " U... = Unpack firmware updates\n"
@@ -44,6 +45,7 @@ void list_families() {
     for (int i = 0; i < GS_MAX_FAMILIES; i++) {
         gs_family_def_t* family = &gs_device_families[i];
         gs_family_capability_string(family, capstr, sizeof(capstr));
+
         fprintf(stderr, " %s %-24s\t", capstr, family->name);
 
         int count = 0;
@@ -70,6 +72,9 @@ void list_families() {
         }
         fprintf(stderr, "\n");
     }
+#else
+    fprintf(stderr, "compiled with LIBGSFW_EMBEDDED, can't list families\n");
+#endif
     exit(EXIT_SUCCESS);
 }
 

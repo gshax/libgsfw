@@ -6,7 +6,11 @@ library and utilities for reverse engineering and modifying Grandstream firmware
 
 - `include/` - C headers
 - `src/` - C source for library
-  - `tools/` - utilities
+  - `bootrom/` - code for working with DSPG BootROM preloader images
+  - `firmware/` - code for working with Grandstream firmware images
+  - `shared/` - AES library, libc subset
+  - `util.c` - helper functions for utilities
+- `tools/` - utilities
 - `build/` - build output
 
 ## tools

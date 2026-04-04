@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include <gsfw/util.h>
+#include <gsfw/macros.h>
 
 PACKED_STRUCT(dspg_pubkey, {
     uint8_t n[256];

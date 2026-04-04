@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#include <gsfw/util.h>
+#include <gsfw/macros.h>
 
 #define GS_UPDATE_FILENAME_SIZE 0x40
 #define GS_FAMILY_MEMBERS 0x10
@@ -136,7 +136,9 @@ extern uint16_t gs_sum(uint16_t* buff, size_t len);
 // determine the family of an update, NULL if unknown
 extern gs_family_def_t* gs_family_fw_fingerprint(char* start);
 
+#ifndef LIBGSFW_EMBEDDED
 extern void gs_family_capability_string(gs_family_def_t* family, char* output, size_t maxlen);
+#endif
 
 // build the firmware update directory for a given family
 extern int gs_family_fw_build_directory(gs_family_def_t* family, char* start, gs_update_directory_t* directory);

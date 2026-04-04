@@ -1,10 +1,29 @@
-#include <gsfw/log.h>
 #include <gsfw/firmware/shared.h>
 #include <gsfw/firmware/crypto.h>
 #include <gsfw/firmware/family_defs.h>
+#include <gsfw/libc.h>
 
+#ifndef LIBGSFW_EMBEDDED
 #include <stdio.h>
-#include <string.h>
+
+void gs_family_capability_string(gs_family_def_t* family, char* output, size_t maxlen) {
+    snprintf(output, maxlen, "%c%c%c%c",
+        // Unpack firmware updates
+        family->methods.fw_parse_header ? 'U' : '.',
+        // Rebuild firmware updates (not implemented yet)
+        (family->methods.fw_build_header && family->methods.img_set_body_size) ? 'P' : '.',
+        // Display family-specific details about firmware updates
+        //family->methods.fw_infodump ? 'Q' : '.',
+
+        // Decrypt firmware images
+        family->capabilities.img_decrypt ? 'D' : '.',
+        // Patch firmware images (not implemented yet)
+        family->capabilities.img_encrypt ? 'E' : '.'
+        // Display family-specific details about firmware images
+        //family->methods.img_infodump ? 'S' : '.'
+    );
+}
+#endif // LIBGSFW_EMBEDDED
 
 void gs_swap_bytes(char* buff, size_t len) {
     for (int i = 0; i < len; i += 2) {
@@ -12,14 +31,6 @@ void gs_swap_bytes(char* buff, size_t len) {
         buff[i] = buff[i + 1];
         buff[i + 1] = c;
     }
-}
-
-uint16_t gs_sum(uint16_t* buff, size_t len) {
-    uint16_t sum = 0;
-    for (size_t i = 0; i < len / 2; i++) {
-        sum += buff[i];
-    }
-    return 0x10000 - sum;
 }
 
 gs_family_def_t* gs_family_fw_fingerprint(char* start) {
@@ -45,7 +56,7 @@ gs_family_def_t* gs_family_fw_fingerprint(char* start) {
         int matched = 0;
         for (int j = 0; j < GS_FAMILY_MEMBERS; j++) {
             if (!family->fw_first_file[j][0]) { break; }
-            if (strncmp(header->file0, family->fw_first_file[j], GS_UPDATE_FILENAME_SIZE) == 0) {
+            if (c_strncmp(header->file0, family->fw_first_file[j], GS_UPDATE_FILENAME_SIZE) == 0) {
                 matched = 1;
                 break;
             }
@@ -63,24 +74,6 @@ gs_family_def_t* gs_family_fw_fingerprint(char* start) {
     return NULL;
 }
 
-void gs_family_capability_string(gs_family_def_t* family, char* output, size_t maxlen) {
-    snprintf(output, maxlen, "%c%c%c%c",
-        // Unpack firmware updates
-        family->methods.fw_parse_header ? 'U' : '.',
-        // Rebuild firmware updates (not implemented yet)
-        (family->methods.fw_build_header && family->methods.img_set_body_size) ? 'P' : '.',
-        // Display family-specific details about firmware updates
-        //family->methods.fw_infodump ? 'Q' : '.',
-
-        // Decrypt firmware images
-        family->capabilities.img_decrypt ? 'D' : '.',
-        // Patch firmware images (not implemented yet)
-        family->capabilities.img_encrypt ? 'E' : '.'
-        // Display family-specific details about firmware images
-        //family->methods.img_infodump ? 'S' : '.'
-    );
-}
-
 int gs_family_fw_build_directory(gs_family_def_t* family, char* start, gs_update_directory_t* directory) {
     //directory->family = family;
     start += family->fw_start;
@@ -89,7 +82,7 @@ int gs_family_fw_build_directory(gs_family_def_t* family, char* start, gs_update
     directory->body = start + family->fw_body_start;
 
     if (!family->methods.fw_parse_header) {
-        LOGV(RED, "directory parser not implemented for %s\n", family->name);
+        //LOGV(RED, "directory parser not implemented for %s\n", family->name);
         return 1;
     }
     else {
@@ -158,7 +151,7 @@ int gs_family_img_encrypt(gs_family_def_t* family, char* image, size_t len, char
     // copy body key from header and swap to get the AES key
     // (don't modify the header — body key must remain in original form for header encryption)
     char body_key[GS_CRYPTO_KEY_SIZE];
-    memcpy(body_key, image + family->img_key_sample, GS_CRYPTO_KEY_SIZE);
+    c_memcpy(body_key, image + family->img_key_sample, GS_CRYPTO_KEY_SIZE);
     gs_swap_bytes(body_key, GS_CRYPTO_KEY_SIZE);
 
     // encrypt body

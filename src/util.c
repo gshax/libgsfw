@@ -1,6 +1,5 @@
-#include <gsfw/util.h>
+#include "util.h"
 
-#include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -8,7 +7,7 @@
 #include <sys/stat.h>
 #include <sys/sysmacros.h>
 
-#include <gsfw/log.h>
+#include "log.h"
 
 int ezmmap(char* filename, ezmmap_mode_t mode, size_t size, ezmmap_ctx_t* ctx) {
     ctx->mode = mode;
@@ -76,33 +75,6 @@ int ezmunmap(ezmmap_ctx_t* ctx) {
         return 0;
     }
     ctx->ptr = NULL;
-    return 1;
-}
-
-int ezmknod(char* path, char type, int major, int minor) {
-    mode_t mode;
-    switch (type) {
-        case 'b':
-            mode = __S_IFBLK;
-            break;
-        case 'c':
-        case 'u':
-            mode = __S_IFCHR;
-            break;
-        default:
-            LOGV(RED, "dont know how to make a %c node\nthis is a bug\n", type);
-            return 0;
-    }
-
-    int status = mknod(path, mode, makedev(major, minor));
-    if (status < 0) {
-        switch (errno) {
-            // okay for it to already exist
-            case EEXIST:
-                return 0;
-        }
-    }
-
     return 1;
 }
 

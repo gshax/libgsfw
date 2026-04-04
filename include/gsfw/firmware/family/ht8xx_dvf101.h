@@ -1,7 +1,6 @@
 #pragma once
 
 #include <gsfw/firmware/family/ht8xx.h>
-#include <gsfw/util.h>
 
 typedef enum ht8_dvf101_known_hwid {
     GS_HT818 = 0xfd23

@@ -12,8 +12,8 @@
 
 #include <gsfw/firmware/family_defs.h>
 #include <gsfw/firmware/shared.h>
-#include <gsfw/log.h>
-#include <gsfw/util.h>
+#include "log.h"
+#include "util.h"
 
 void usage(char* prog) {
     fprintf(stderr, "Usage: %s -F <family> [-uHflqn] <file>\n"

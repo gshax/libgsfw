@@ -10,7 +10,14 @@ library and utilities for reverse engineering and modifying Grandstream firmware
 ## building
 
 ```sh
+# native build
 make
+
+# cross-compile
+PREFIX=arm-none-linux-gnueabi- TARGET=arm make
+
+# build embedded (for virgil)
+PREFIX=arm-none-linux-gnueabi- TARGET=arm_embedded EXTRA_CFLAGS=-DLIBGSFW_EMBEDDED=1 make libgsfw
 ```
 
 binaries are output to `src/native/`.

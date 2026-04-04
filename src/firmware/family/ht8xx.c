@@ -1,7 +1,6 @@
 #include <gsfw/firmware/family/ht8xx.h>
 #include <gsfw/firmware/family_defs.h>
-
-#include <string.h>
+#include <gsfw/libc.h>
 
 int ht8_dvf99_fw_parse_header(ht8_v1_update_hdr_t* header, gs_update_directory_t* directory) {
     //ht8_v1_update_hdr_t* header = (void*)start;
@@ -17,9 +16,9 @@ int ht8_dvf99_fw_build_header(ht8_v1_update_hdr_t* hdr,
 {
     (void)first_img;
     hdr->magic = GS_HT8_DVF99_FW_MAGIC;
-    memcpy(hdr->filenames, dir->filenames, sizeof(hdr->filenames));
-    memcpy(hdr->sizes,     dir->sizes,     sizeof(hdr->sizes));
-    memcpy(hdr->versions,  dir->versions,  sizeof(hdr->versions));
+    c_memcpy(hdr->filenames, dir->filenames, sizeof(hdr->filenames));
+    c_memcpy(hdr->sizes,     dir->sizes,     sizeof(hdr->sizes));
+    c_memcpy(hdr->versions,  dir->versions,  sizeof(hdr->versions));
     return 0;
 }
 

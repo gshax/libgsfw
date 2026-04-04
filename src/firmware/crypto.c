@@ -1,8 +1,7 @@
 #include <gsfw/firmware/crypto.h>
 #include <gsfw/firmware/shared.h>
 #include <gsfw/aes.h>
-
-#include <string.h>
+#include <gsfw/libc.h>
 
 // universal (as far as i know) AES IV
 char gs_iv[16 + 1] = "Grandstream Inc.";
@@ -34,10 +33,10 @@ uint16_t gs_decode_uint16(const char* str) {
 
 void gs_key_decode(const char* str, uint16_t* buff) {
     char dstr[GS_CRYPTO_KEY_STR_SIZE];
-    memset(dstr, 0, GS_CRYPTO_KEY_STR_SIZE);
+    c_memset(dstr, 0, GS_CRYPTO_KEY_STR_SIZE);
     
     // copy key to workspace buffer and flip nibbles
-    memcpy(dstr, str, GS_CRYPTO_KEY_STR_SIZE);
+    c_memcpy(dstr, str, GS_CRYPTO_KEY_STR_SIZE);
     gs_swap_bytes(dstr, GS_CRYPTO_KEY_STR_SIZE);
 
     // decode hex shorts

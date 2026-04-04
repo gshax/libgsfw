@@ -21,7 +21,6 @@
 #include <stdint.h>
 
 #include <gsfw/firmware/family_defs.h>
-#include <gsfw/util.h>
 
 // validity check stuff
 #define GS_IMAGE_ID_KNOWN(id) (id >= GS_IMG_BOOT && id <= GS_IMG_PROG)

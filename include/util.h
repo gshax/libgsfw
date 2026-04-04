@@ -21,10 +21,6 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-#define MSLEEP(n) usleep(n * 1000)
-
-#define PACKED_STRUCT(name, body) typedef struct name body __attribute__ ((packed)) name##_t
-
 typedef enum ezmmap_mode {
     ezmmap_ro,
     ezmmap_rw,

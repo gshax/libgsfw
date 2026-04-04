@@ -1,10 +1,9 @@
 #include <gsfw/firmware/family/ht8xx_dvf101.h>
 #include <gsfw/firmware/family_defs.h>
+#include <gsfw/libc.h>
 
+#ifndef LIBGSFW_EMBEDDED
 #include <stdio.h>
-#include <string.h>
-
-//#include "crypto.h"
 
 void ht8_dvf101_fw_infodump(ht8_dvf101_update_hdr_t* header) {
     // print header information
@@ -64,28 +63,6 @@ void ht8_dvf101_img_infodump(ht8_dvf101_image_hdr_t* header) {
         fprintf(stderr, "\nflash counter:\t%08x\n", header->prov_counter);
     }
 
-    /*fprintf(stderr, "\nimage length:\t%08x (%s)\n", header->size_image,
-        GS_IMAGE_TRUNCATED(header, summary->file_size) ?
-            "truncated" : "not truncated");
-    fprintf(stderr, "body start:\t%08x\n", header->start);
-
-    // handle invalid sizes
-    if (
-        GS_IMAGE_TRUNCATED(header, summary->file_size) &&
-        (header->size != summary->body_size)
-    ) {
-        bool too_small = header->size > summary->body_size;
-        LOGV(too_small ? RED : YLW, "body length:\t%08x (expected: %08lx)\n",
-            header->size, summary->body_size);
-    }
-    else {
-        fprintf(stderr, "body length:\t%08x\n", header->size);
-    }
-
-    // print current and expected checksum values
-    LOGV(GS_CHECKSUM_VALID(header, summary->checksum) ? GRN : RED,
-        "checksum:\t%04x (expected: %04x)\n", header->checksum, summary->checksum);*/
-
     fprintf(stderr, "\nimage length:\t%08x\n", header->size_image);
     fprintf(stderr, "body start:\t%08x\n", header->start);
 
@@ -95,6 +72,7 @@ void ht8_dvf101_img_infodump(ht8_dvf101_image_hdr_t* header) {
     // print current and expected checksum values
     fprintf(stderr, "checksum:\t%04x\n", header->checksum);
 }
+#endif // LIBGSFW_EMBEDDED
 
 int ht8_dvf101_fw_parse_header(ht8_dvf101_update_hdr_t* header, gs_update_directory_t* directory) {
     //ht8_dvf101_update_hdr_t* header = (void*)start;
@@ -140,10 +118,10 @@ int ht8_dvf101_fw_build_header(ht8_dvf101_update_hdr_t* hdr,
     gs_update_directory_t* dir, ht8_dvf101_image_hdr_t* first_img)
 {
     hdr->magic = GS_HT8_DVF101_FW_MAGIC;
-    memcpy(hdr->filenames, dir->filenames, sizeof(hdr->filenames));
-    memcpy(hdr->sizes,     dir->sizes,     sizeof(hdr->sizes));
-    memcpy(hdr->versions,  dir->versions,  sizeof(hdr->versions));
-    memcpy(hdr->support_bits, first_img->support_bits, sizeof(hdr->support_bits));
+    c_memcpy(hdr->filenames, dir->filenames, sizeof(hdr->filenames));
+    c_memcpy(hdr->sizes,     dir->sizes,     sizeof(hdr->sizes));
+    c_memcpy(hdr->versions,  dir->versions,  sizeof(hdr->versions));
+    c_memcpy(hdr->support_bits, first_img->support_bits, sizeof(hdr->support_bits));
     hdr->v_mask      = first_img->v_mask;
     hdr->oem_id      = first_img->oem_id;
     hdr->header_size = GS_HT8_DVF101_FW_BODY_START;
@@ -161,9 +139,11 @@ void ht8_dvf101_family_init(gs_family_def_t *family) {
     family->capabilities.img_decrypt = true;
     family->capabilities.img_encrypt = true;
 
+#ifndef LIBGSFW_EMBEDDED
     family->methods.fw_infodump = (void*)ht8_dvf101_fw_infodump;
-    family->methods.fw_parse_header = (void*)ht8_dvf101_fw_parse_header;
     family->methods.img_infodump = (void*)ht8_dvf101_img_infodump;
+#endif
+    family->methods.fw_parse_header = (void*)ht8_dvf101_fw_parse_header;
     family->methods.fw_get_checksum = (void*)ht8_dvf101_fw_get_checksum;
     family->methods.fw_fix_support_bits = (void*)ht8_dvf101_fw_fix_support_bits;
     family->methods.img_get_checksum = (void*)ht8_dvf101_img_get_checksum;

@@ -17,8 +17,6 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <stdio.h>
-
 #define GRN 32
 #define YLW 33
 #define RED 31

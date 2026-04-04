@@ -4,7 +4,6 @@
 #include <stdint.h>
 
 #include <gsfw/firmware/family_defs.h>
-#include <gsfw/util.h>
 
 PACKED_STRUCT(ht5_update_hdr, {
     // should be GS_MAGIC
