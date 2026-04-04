@@ -21,6 +21,7 @@
 #include <stdint.h>
 
 #include <gsfw/firmware/family_defs.h>
+#include <gsfw/util.h>
 
 // validity check stuff
 #define GS_IMAGE_ID_KNOWN(id) (id >= GS_IMG_BOOT && id <= GS_IMG_PROG)
@@ -36,9 +37,7 @@ typedef enum ht8_known_image {
     GS_IMG_PROG
 } ht8v1_known_image_t;
 
-#pragma pack(push, 1)
-
-typedef struct ht8_v1_update_hdr {
+PACKED_STRUCT(ht8_v1_update_hdr, {
     // should be GS_MAGIC
     uint32_t magic;
     // file names
@@ -47,9 +46,9 @@ typedef struct ht8_v1_update_hdr {
     uint32_t sizes[GS_HT8_DVF101_FW_FILE_SLOTS];
     // file versions
     gs_version_t versions[GS_HT8_DVF101_FW_FILE_SLOTS];
-} ht8_v1_update_hdr_t;
+});
 
-typedef struct ht8_v2_update_hdr {
+PACKED_STRUCT(ht8_v2_update_hdr, {
     // should be GS_MAGIC
     uint32_t magic;
     // file names
@@ -58,6 +57,4 @@ typedef struct ht8_v2_update_hdr {
     uint32_t sizes[GS_HT8_ROCKCHIP_FW_FILE_SLOTS];
     // file versions
     gs_version_t versions[GS_HT8_ROCKCHIP_FW_FILE_SLOTS];
-} ht8_v2_update_hdr_t;
-
-#pragma pack(pop)
+});

@@ -1,14 +1,13 @@
 #pragma once
 
 #include <gsfw/firmware/family/ht8xx.h>
+#include <gsfw/util.h>
 
 typedef enum ht8_dvf101_known_hwid {
     GS_HT818 = 0xfd23
 } gs_known_hwid_t;
 
-#pragma pack(push, 1)
-
-typedef struct ht8_dvf101_update_hdr {
+PACKED_STRUCT(ht8_dvf101_update_hdr, {
     // should be GS_MAGIC
     uint32_t magic;
     // file names
@@ -31,9 +30,9 @@ typedef struct ht8_dvf101_update_hdr {
     uint16_t oem_id;
     // unknown function
     uint16_t encryption_type;
-} ht8_dvf101_update_hdr_t;
+});
 
-typedef struct ht8_dvf101_image_hdr {
+PACKED_STRUCT(ht8_dvf101_image_hdr, {
     // should be GS_MAGIC
     uint32_t magic;
     // image version
@@ -74,6 +73,4 @@ typedef struct ht8_dvf101_image_hdr {
     // unknown function
     uint32_t pad_size;
     // TODO: there's a byte at 0x240 that supposedly marks dev builds
-} ht8_dvf101_image_hdr_t;
-
-#pragma pack(pop)
+});

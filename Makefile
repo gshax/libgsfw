@@ -1,9 +1,9 @@
 CC ?= gcc
 AR ?= ar
-CFLAGS ?= -D_DEFAULT_SOURCE -Wall -Wno-unused-variable -O2
+CFLAGS ?= -D_DEFAULT_SOURCE -Wall -Wno-unused-variable -Wno-address-of-packed-member -O2
 CFLAGS += -Iinclude
 
-SRCS = $(wildcard src/*.c) $(wildcard src/firmware/*.c)
+SRCS = $(wildcard src/*.c) $(wildcard src/firmware/*.c) $(wildcard src/bootrom/*.c)
 OBJS = $(SRCS:.c=.o)
 
 TOOL_SRCS = $(wildcard tools/*.c)

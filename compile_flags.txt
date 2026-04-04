@@ -1,3 +1,4 @@
 -Wall
 -Wno-unused-variable
+-Wno-address-of-packed-member
 -Iinclude

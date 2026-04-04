@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include <gsfw/util.h>
+
 #define GS_UPDATE_FILENAME_SIZE 0x40
 #define GS_FAMILY_MEMBERS 0x10
 #define GS_FAMILY_NAME_SIZE 0x10
@@ -15,31 +17,27 @@
 
 typedef char gs_filename_t[GS_UPDATE_FILENAME_SIZE];
 
-#pragma pack(push, 1)
-
 // common start structure for all variants, used for fingerprinting
-typedef struct gs_stub_update_hdr {
+PACKED_STRUCT(gs_stub_update_hdr, {
     // should be GS_MAGIC
     uint32_t magic;
     // file names
     gs_filename_t file0;
-} gs_stub_update_hdr_t;
+});
 
-typedef struct gs_version {
+PACKED_STRUCT(gs_version, {
     uint8_t revision;
     uint16_t minor;
     uint8_t major;
-} gs_version_t;
+});
 
-typedef struct gs_timestamp {
+PACKED_STRUCT(gs_timestamp, {
     uint16_t year;
     uint8_t day;
     uint8_t month;
     uint8_t minute;
     uint8_t hour;
-} gs_timestamp_t;
-
-#pragma pack(pop)
+});
 
 // internal directory for update metadata
 typedef struct gs_update_directory {
