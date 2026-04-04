@@ -20,8 +20,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "family_defs.h"
-#include "shared.h"
+#include "firmware/family_defs.h"
 
 //#define HT8_UPDATE_FILES 7
 //#define HT8V2_UPDATE_FILES 16

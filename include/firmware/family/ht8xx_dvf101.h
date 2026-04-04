@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ht8xx.h"
+#include "firmware/family/ht8xx.h"
 
 typedef enum ht8_dvf101_known_hwid {
     GS_HT818 = 0xfd23

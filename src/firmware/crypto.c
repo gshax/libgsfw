@@ -1,8 +1,8 @@
-#include "crypto.h"
+#include "firmware/crypto.h"
+#include "firmware/shared.h"
+#include "aes.h"
 
 #include <string.h>
-#include "shared.h"
-#include "aes.h"
 
 // universal (as far as i know) AES IV
 char gs_iv[16 + 1] = "Grandstream Inc.";

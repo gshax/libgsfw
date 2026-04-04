@@ -3,8 +3,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "family_defs.h"
-#include "shared.h"
+#include "firmware/family_defs.h"
 
 #pragma pack(push, 1)
 

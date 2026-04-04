@@ -1,6 +1,5 @@
-#include "ht8xx.h"
-#include "family_defs.h"
-#include "shared.h"
+#include "firmware/family/ht8xx.h"
+#include "firmware/family_defs.h"
 
 #include <string.h>
 
@@ -26,6 +25,7 @@ int ht8_dvf99_fw_build_header(ht8_v1_update_hdr_t* hdr,
 
 void ht8_dvf99_family_init(gs_family_def_t *family) {
     family->capabilities.img_decrypt = true;
+    family->capabilities.img_encrypt = true;
 
     family->methods.fw_parse_header = (void*)ht8_dvf99_fw_parse_header;
     family->methods.fw_build_header = (void*)ht8_dvf99_fw_build_header;

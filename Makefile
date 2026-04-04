@@ -1,52 +1,28 @@
-CFLAGS = -Wall -O2 -Wno-unused-variable -I.
-LDFLAGS = -static
+CC ?= gcc
+AR ?= ar
+CFLAGS ?= -D_DEFAULT_SOURCE -Wall -Wno-unused-variable -O2
+CFLAGS += -Iinclude
 
-OUTDIR ?= build/native
-ODIR = $(OUTDIR)/obj
-BDIR = $(OUTDIR)
+SRCS = $(wildcard src/*.c) $(wildcard src/firmware/*.c)
+OBJS = $(SRCS:.c=.o)
 
-_TARGETS = imgtool fwtool
-TARGETS = $(patsubst %,$(BDIR)/%,$(_TARGETS))
+TOOL_SRCS = $(wildcard tools/*.c)
+TOOLS = $(TOOL_SRCS:.c=)
 
-# firmware library objects
-_LIBGSFW_OBJS = util firmware/shared firmware/crypto firmware/aes \
-    firmware/family_defs firmware/ht8xx_dvf101 firmware/ht8xx firmware/htlegacy
-LIBGSFW_OBJS = $(patsubst %,$(ODIR)/%.o,$(_LIBGSFW_OBJS))
-LIBGSFW = $(BDIR)/libgsfw.a
+.PHONY: all clean tools
 
-_OBJ = $(_LIBGSFW_OBJS) $(_TARGETS)
-OBJ = $(patsubst %,$(ODIR)/%.o,$(_OBJ))
+all: tools
 
-all: $(TARGETS)
-
-# firmware library
-$(LIBGSFW): $(LIBGSFW_OBJS)
+libgsfw.a: $(OBJS)
 	$(AR) rcs $@ $^
 
-# firmware tools
-$(BDIR)/imgtool: $(ODIR)/imgtool.o $(LIBGSFW)
-$(BDIR)/fwtool:  $(ODIR)/fwtool.o  $(LIBGSFW)
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-$(ODIR)/%.o: src/%.c
-	@mkdir -p $(ODIR)
-	@mkdir -p $(ODIR)/firmware
-	@mkdir -p $(ODIR)/driver
-	$(CC) -c -o $@ $< $(CFLAGS)
+tools: libgsfw.a $(TOOLS)
 
-$(BDIR)/%: $(ODIR)/%.o
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+tools/%: tools/%.c libgsfw.a
+	$(CC) $(CFLAGS) -static -o $@ $< -L. -lgsfw
 
 clean:
-	rm -f $(OBJ) $(LIBGSFW)
-	rm -f $(TARGETS)
-	rmdir $(ODIR)/firmware
-	rmdir $(ODIR)/driver
-	rmdir $(ODIR)
-	rmdir $(BDIR)
-
-# shorthand targets
-.PHONY: $(_TARGETS) libgsfw
-$(_TARGETS): %: $(BDIR)/%
-libgsfw: $(LIBGSFW)
-
-.PHONY: clean
+	rm -f $(OBJS) libgsfw.a $(TOOLS)

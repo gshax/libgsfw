@@ -1,10 +1,9 @@
-#include "ht8xx_dvf101.h"
+#include "firmware/family/ht8xx_dvf101.h"
+#include "firmware/family_defs.h"
 
 #include <stdio.h>
 #include <string.h>
 
-#include "family_defs.h"
-#include "shared.h"
 //#include "crypto.h"
 
 void ht8_dvf101_fw_infodump(ht8_dvf101_update_hdr_t* header) {
@@ -160,6 +159,7 @@ int ht8_dvf101_img_set_body_size(ht8_dvf101_image_hdr_t* hdr, size_t body_size, 
 
 void ht8_dvf101_family_init(gs_family_def_t *family) {
     family->capabilities.img_decrypt = true;
+    family->capabilities.img_encrypt = true;
 
     family->methods.fw_infodump = (void*)ht8_dvf101_fw_infodump;
     family->methods.fw_parse_header = (void*)ht8_dvf101_fw_parse_header;

@@ -4,8 +4,9 @@ library and utilities for reverse engineering and modifying Grandstream firmware
 
 ## repo layout
 
-- `src/` - C source for all tools
-  - `firmware/` - firmware format definitions, crypto, per-family implementations
+- `include/` - C headers
+- `src/` - C source for library
+  - `tools/` - utilities
 - `build/` - build output
 
 ## tools

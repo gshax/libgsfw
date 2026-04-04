@@ -1,7 +1,7 @@
-#include "shared.h"
-#include "../log.h"
-#include "crypto.h"
-#include "family_defs.h"
+#include "log.h"
+#include "firmware/shared.h"
+#include "firmware/crypto.h"
+#include "firmware/family_defs.h"
 //#include "htlegacy.h"
 //#include "ht8xx.h"
 
@@ -70,14 +70,14 @@ void gs_family_capability_string(gs_family_def_t* family, char* output, size_t m
         // Unpack firmware updates
         family->methods.fw_parse_header ? 'U' : '.',
         // Rebuild firmware updates (not implemented yet)
-        '.',
+        (family->methods.fw_build_header && family->methods.img_set_body_size) ? 'P' : '.',
         // Display family-specific details about firmware updates
         //family->methods.fw_infodump ? 'Q' : '.',
 
         // Decrypt firmware images
         family->capabilities.img_decrypt ? 'D' : '.',
         // Patch firmware images (not implemented yet)
-        '.'
+        family->capabilities.img_encrypt ? 'E' : '.'
         // Display family-specific details about firmware images
         //family->methods.img_infodump ? 'S' : '.'
     );
