@@ -5,7 +5,7 @@ TARGET ?= native
 CFLAGS ?= -Wall -Wno-unused-variable -Wno-address-of-packed-member -O2
 CFLAGS += -Iinclude
 ifeq ($(strip $(EMBEDDED)),1)
-	CFLAGS += -DLIBGSFW_EMBEDDED
+	CFLAGS += -Os -DLIBGSFW_EMBEDDED
 endif
 
 BUILD = build/$(TARGET)

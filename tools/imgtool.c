@@ -46,7 +46,7 @@ static void stem(const char* path, char* out, size_t maxlen) {
     if (dot) *dot = '\0';
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     gs_device_families_init();
 
     int r = EXIT_SUCCESS;

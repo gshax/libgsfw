@@ -201,7 +201,7 @@ static int do_pack(gs_family_def_t* family, bool quiet, int argc, char* argv[]) 
     return EXIT_SUCCESS;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     gs_device_families_init();
 
     int r = EXIT_SUCCESS;
