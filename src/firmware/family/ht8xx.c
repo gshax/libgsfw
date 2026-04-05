@@ -16,9 +16,9 @@ int ht8_dvf99_fw_build_header(ht8_v1_update_hdr_t* hdr,
 {
     (void)first_img;
     hdr->magic = GS_HT8_DVF99_FW_MAGIC;
-    c_memcpy(hdr->filenames, dir->filenames, sizeof(hdr->filenames));
-    c_memcpy(hdr->sizes,     dir->sizes,     sizeof(hdr->sizes));
-    c_memcpy(hdr->versions,  dir->versions,  sizeof(hdr->versions));
+    memcpy(hdr->filenames, dir->filenames, sizeof(hdr->filenames));
+    memcpy(hdr->sizes,     dir->sizes,     sizeof(hdr->sizes));
+    memcpy(hdr->versions,  dir->versions,  sizeof(hdr->versions));
     return 0;
 }
 

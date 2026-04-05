@@ -226,11 +226,11 @@ void AES_init_ctx(struct AES_ctx* ctx, const uint8_t* key)
 void AES_init_ctx_iv(struct AES_ctx* ctx, const uint8_t* key, const uint8_t* iv)
 {
   KeyExpansion(ctx->RoundKey, key);
-  c_memcpy (ctx->Iv, iv, AES_BLOCKLEN);
+  memcpy(ctx->Iv, iv, AES_BLOCKLEN);
 }
 void AES_ctx_set_iv(struct AES_ctx* ctx, const uint8_t* iv)
 {
-  c_memcpy (ctx->Iv, iv, AES_BLOCKLEN);
+  memcpy(ctx->Iv, iv, AES_BLOCKLEN);
 }
 #endif
 
@@ -512,7 +512,7 @@ void AES_CBC_encrypt_buffer(struct AES_ctx *ctx, uint8_t* buf, size_t length)
     buf += AES_BLOCKLEN;
   }
   /* store Iv in ctx for next call */
-  c_memcpy(ctx->Iv, Iv, AES_BLOCKLEN);
+  memcpy(ctx->Iv, Iv, AES_BLOCKLEN);
 }
 
 void AES_CBC_decrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length)
@@ -521,10 +521,10 @@ void AES_CBC_decrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length)
   uint8_t storeNextIv[AES_BLOCKLEN];
   for (i = 0; i < length; i += AES_BLOCKLEN)
   {
-    c_memcpy(storeNextIv, buf, AES_BLOCKLEN);
+    memcpy(storeNextIv, buf, AES_BLOCKLEN);
     InvCipher((state_t*)buf, ctx->RoundKey);
     XorWithIv(buf, ctx->Iv);
-    c_memcpy(ctx->Iv, storeNextIv, AES_BLOCKLEN);
+    memcpy(ctx->Iv, storeNextIv, AES_BLOCKLEN);
     buf += AES_BLOCKLEN;
   }
 
@@ -548,7 +548,7 @@ void AES_CTR_xcrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length)
     if (bi == AES_BLOCKLEN) /* we need to regen xor compliment in buffer */
     {
       
-      c_memcpy(buffer, ctx->Iv, AES_BLOCKLEN);
+      memcpy(buffer, ctx->Iv, AES_BLOCKLEN);
       Cipher((state_t*)buffer,ctx->RoundKey);
 
       /* Increment Iv and handle overflow */

@@ -118,10 +118,10 @@ int ht8_dvf101_fw_build_header(ht8_dvf101_update_hdr_t* hdr,
     gs_update_directory_t* dir, ht8_dvf101_image_hdr_t* first_img)
 {
     hdr->magic = GS_HT8_DVF101_FW_MAGIC;
-    c_memcpy(hdr->filenames, dir->filenames, sizeof(hdr->filenames));
-    c_memcpy(hdr->sizes,     dir->sizes,     sizeof(hdr->sizes));
-    c_memcpy(hdr->versions,  dir->versions,  sizeof(hdr->versions));
-    c_memcpy(hdr->support_bits, first_img->support_bits, sizeof(hdr->support_bits));
+    memcpy(hdr->filenames, dir->filenames, sizeof(hdr->filenames));
+    memcpy(hdr->sizes,     dir->sizes,     sizeof(hdr->sizes));
+    memcpy(hdr->versions,  dir->versions,  sizeof(hdr->versions));
+    memcpy(hdr->support_bits, first_img->support_bits, sizeof(hdr->support_bits));
     hdr->v_mask      = first_img->v_mask;
     hdr->oem_id      = first_img->oem_id;
     hdr->header_size = GS_HT8_DVF101_FW_BODY_START;

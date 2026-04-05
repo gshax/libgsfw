@@ -1,13 +1,16 @@
-CC ?= $(PREFIX)gcc
-AR ?= $(PREFIX)ar
-TARGET ?= native
-
 CFLAGS ?= -Wall -Wno-unused-variable -Wno-address-of-packed-member -O2
 CFLAGS += -Iinclude
+
 ifeq ($(strip $(EMBEDDED)),1)
-	CFLAGS += -Os -DLIBGSFW_EMBEDDED
+PREFIX ?= arm-none-linux-gnueabi-
+TARGET ?= embedded
+CFLAGS += -Os -DLIBGSFW_EMBEDDED -fno-builtin
 endif
 
+CC = $(PREFIX)gcc
+AR = $(PREFIX)ar
+
+TARGET ?= native
 BUILD = build/$(TARGET)
 
 SRCS = $(wildcard src/shared/*.c) $(wildcard src/firmware/*.c) $(wildcard src/firmware/family/*.c) $(wildcard src/bootrom/*.c)

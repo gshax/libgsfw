@@ -17,7 +17,7 @@ make
 PREFIX=arm-none-linux-gnueabi- TARGET=arm make
 
 # build embedded (for virgil)
-PREFIX=arm-none-linux-gnueabi- TARGET=arm_embedded EXTRA_CFLAGS=-DLIBGSFW_EMBEDDED=1 make libgsfw
+make EMBEDDED=1 libgsfw
 ```
 
 binaries are output to `src/native/`.

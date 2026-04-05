@@ -56,7 +56,7 @@ gs_family_def_t* gs_family_fw_fingerprint(char* start) {
         int matched = 0;
         for (int j = 0; j < GS_FAMILY_MEMBERS; j++) {
             if (!family->fw_first_file[j][0]) { break; }
-            if (c_strncmp(header->file0, family->fw_first_file[j], GS_UPDATE_FILENAME_SIZE) == 0) {
+            if (strncmp(header->file0, family->fw_first_file[j], GS_UPDATE_FILENAME_SIZE) == 0) {
                 matched = 1;
                 break;
             }
@@ -151,7 +151,7 @@ int gs_family_img_encrypt(gs_family_def_t* family, char* image, size_t len, char
     // copy body key from header and swap to get the AES key
     // (don't modify the header — body key must remain in original form for header encryption)
     char body_key[GS_CRYPTO_KEY_SIZE];
-    c_memcpy(body_key, image + family->img_key_sample, GS_CRYPTO_KEY_SIZE);
+    memcpy(body_key, image + family->img_key_sample, GS_CRYPTO_KEY_SIZE);
     gs_swap_bytes(body_key, GS_CRYPTO_KEY_SIZE);
 
     // encrypt body
