@@ -31,7 +31,9 @@ fwtool -d ht818fw.bin
 # extract body from a partition image
 imgtool -F ht8_dvf101 -u ht818boot.bin
 
-# (...perform desired modifications to ht818boot_body.bin...)
+# perform desired modifications
+# example: disabling uart_locked using the included script
+./uart_unlock.mjs ht818boot_body.bin
 
 # replace the image body and fix the header
 imgtool -F ht8_dvf101 --patch ht818boot_body.bin ht818boot.bin
